@@ -1,0 +1,15 @@
+{
+  "name": "nao-pode",
+  "version": "1.0.0",
+  "description": "Não Pode é um jogo de adivinhação de palavra inspirado no jogo Tabu",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
