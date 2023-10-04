@@ -1,11 +1,10 @@
-import { kv } from '@vercel/kv';
+import { sql } from "@vercel/postgres";
 import { NextResponse, NextRequest } from 'next/server';
  
 export async function GET() {
-    const data = await kv.json.get('palavras');
-    let palavras = data['Palavras'];
-    let totalPalavras: number = Object.keys(palavras).length;
+    let palavras = await sql`SELECT * from palavras`;
+    let totalPalavras: number = Object.keys(palavras.rows).length;
     const indicePalavraSorteada =  Math.floor(Math.random() * totalPalavras)
-    const palavra = palavras[indicePalavraSorteada];
+    const palavra = palavras.rows[indicePalavraSorteada];
     return NextResponse.json(palavra);
   }

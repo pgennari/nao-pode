@@ -1,14 +1,17 @@
-import Timer from "@/components/timer";
-import { kv } from "@vercel/kv";
+import { sql } from "@vercel/postgres";
+import dynamic from 'next/dynamic'
 
 export default async function Home() {
-  const data = await kv.json.get("palavras");
-  let palavras = data["Palavras"];
-  let totalPalavras: number = Object.keys(palavras).length;
+  const palavras = await sql`SELECT * from palavras`;
+  let totalPalavras: number = Object.keys(palavras.rows).length;
+  console.log(totalPalavras)
   const indicePalavraSorteada = Math.floor(Math.random() * totalPalavras);
-  const palavra = palavras[indicePalavraSorteada];
-
-  const dificultadores = palavra.Dificultadores.map((d: String, i: number) => {
+  console.log(indicePalavraSorteada)
+  const palavra = palavras.rows[indicePalavraSorteada];
+  console.log(palavra)
+  const Timer = dynamic(() => import('@/components/timer'), { ssr: false })
+  //const timer = Timer(expiryTimestamp={new Date(Date.now() + 60 * 1000)});
+  const dificultadores = palavra.dificultadores.split(";").map((d: String, i: number) => {
     return (
       <p key={i} className="p-6 font-black uppercase">
         {d}
@@ -16,21 +19,21 @@ export default async function Home() {
     );
   });
 
-  const initTimer = function () {
+  const vai = function () {
     return (
-      <div>
-        <button className="py-3 px-5 w-1/2 m-1 bg-black text-slate-100 rounded-xl scale-in-center shadow-xl ">
-          Vai!
+      <div className="w-1/2 m-2">
+        <button className="py-3 px-5 w-full m-1 bg-violet-500 text-slate-100 rounded-xl scale-in-center shadow-xl " >
+          Vai!&nbsp; 
+          {/* <Timer   />  */}
         </button>
-        <Timer expiryTimestamp={new Date(Date.now() + 60 * 1000)} />
       </div>
     );
   };
 
   const pular = function () {
     return (
-      <div className=" py-3 px-5 w-1/2 m-1 bg-black text-slate-100 rounded-xl scale-in-center shadow-xl align-middle text-center">
-        <button className="align-middle">
+      <div className="w-1/2 m-2">
+        <button className="w-full py-3 px-5 w-1/2 m-1 bg-violet-500 text-slate-100 rounded-xl scale-in-center shadow-xl align-middle text-center">
           Pular
         </button>
       </div>
@@ -42,12 +45,12 @@ export default async function Home() {
       <section>
         <div className=" border-black w-80 bg-neutral-100 text-center box-content border-5 h-[32rem] border-solid ">
           <div className="border-solid p-3 bg-indigo-500 text-slate-100 uppercase leading-loose font-mono antialiased font-black tracking-widest text-2xl text-focus-in text-shadow-drop-center ">
-            {palavra.Palavra}
+            {palavra.palavra}
           </div>
           <div className="w-100 text-shadow-drop-center">{dificultadores}</div>
         </div>
         <div className="flex flex-row">
-          {initTimer()}
+          {vai()}
           {pular()}
         </div>
       </section>
