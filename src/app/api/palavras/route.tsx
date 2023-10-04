@@ -1,9 +1,13 @@
 import { sql } from "@vercel/postgres";
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { data } from "autoprefixer";
 
 const prisma = new PrismaClient();
+
+type Palavra = {
+  palavra: string;
+  dificultadores: string;
+}
 
 export async function GET() {
   let palavras = await sql`SELECT * from palavras`;
@@ -11,9 +15,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  let palavras;
+  let payload;
   try {
-    palavras = await req.json();
+    payload = await req.json();
 
     var Validator = require("jsonschema").Validator;
     var v = new Validator();
@@ -36,7 +40,8 @@ export async function POST(req: NextRequest) {
       },
     };
 
-    //console.log(v.validate(palavras, pessoasSchema));
+    v.validate(payload, pessoasSchema);
+    
   } catch (error) {
     return NextResponse.json(JSON.stringify("JSON mal formado"), {
       status: 400,
@@ -44,17 +49,17 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  let dataAux: object[] = [];
+  const  listaPalavras = [{} as Palavra];
 
-  palavras.forEach(async (element) => {
-    dataAux.push({
+  payload.forEach((element: { palavra: string; dificultadores: string[]; }) => {
+    listaPalavras.push({
       palavra: element.palavra,
       dificultadores: element.dificultadores.join(";"),
     });
   });
 
   const novasPalavras = await prisma.palavras.createMany({
-    data: dataAux,
+    data: listaPalavras,
     skipDuplicates: true,
   });
 
