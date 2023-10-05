@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   let payload;
   try {
     payload = await req.json();
-
+    
     var Validator = require("jsonschema").Validator;
     var v = new Validator();
 
@@ -43,21 +43,22 @@ export async function POST(req: NextRequest) {
     v.validate(payload, pessoasSchema);
     
   } catch (error) {
-    return NextResponse.json(JSON.stringify("JSON mal formado"), {
+    return NextResponse.json("JSON mal formado\n\n" + payload, {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
   }
 
-  const  listaPalavras = [{} as Palavra];
-
+  let listaPalavras = [{} as Palavra];
+  listaPalavras.shift();
+  
   payload.forEach((element: { palavra: string; dificultadores: string[]; }) => {
     listaPalavras.push({
       palavra: element.palavra,
       dificultadores: element.dificultadores.join(";"),
     });
   });
-
+  console.log(listaPalavras);
   const novasPalavras = await prisma.palavras.createMany({
     data: listaPalavras,
     skipDuplicates: true,
