@@ -1,5 +1,7 @@
 import { sql } from "@vercel/postgres";
-import dynamic from 'next/dynamic'
+
+export const dynamic = "force-dynamic";
+
 
 export default async function Home() {
   const palavras = await sql`SELECT * from palavras`;
@@ -9,7 +11,7 @@ export default async function Home() {
   console.log(indicePalavraSorteada)
   const palavra = palavras.rows[indicePalavraSorteada];
   console.log(palavra)
-  const Timer = dynamic(() => import('@/components/timer'), { ssr: false })
+  //const Timer = dynamic(() => import('@/components/timer'), { ssr: false })
   //const timer = Timer(expiryTimestamp={new Date(Date.now() + 60 * 1000)});
   const dificultadores = palavra.dificultadores.split(";").map((d: String, i: number) => {
     return (
