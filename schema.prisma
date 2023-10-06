@@ -13,3 +13,7 @@ model palavras {
   palavra        String
   dificultadores String
 }
+
+model jogo{
+  id  String @id @default(uuid())
+}
