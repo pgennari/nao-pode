@@ -67,3 +67,5 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json(novasPalavras);
 }
+
+export const dynamic = "force-dynamic";

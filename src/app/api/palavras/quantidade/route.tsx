@@ -5,3 +5,5 @@ export async function GET() {
   const quantidadePalavras = await sql`SELECT COUNT(*) FROM palavras`;
   return NextResponse.json(quantidadePalavras.rows[0].count);
 }
+
+export const dynamic = "force-dynamic";
