@@ -1,19 +1,44 @@
 generator client {
   provider = "prisma-client-js"
 }
- 
+
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
- 
-model palavras {
-  id             Int      @id @default(autoincrement())
-  palavra        String
-  dificultadores String
+
+model Usuario {
+  email String @id @unique
+  name  String
 }
 
-model jogo{
-  id  String @id @default(uuid())
+model Palavra {
+  palavra        String   @id
+  dificultadores String
+  rodadas        Rodada[]
+}
+
+model Jogo {
+  id           String   @id @default(uuid())
+  data_criacao DateTime @default(now())
+  email        String
+  equipes      Equipe[]
+  ativo        Boolean  @default(true)
+}
+
+model Equipe {
+  id      String   @id @default(uuid())
+  jogo    Jogo     @relation(fields: [jogoId], references: [id])
+  jogoId  String
+  rodadas Rodada[]
+}
+
+model Rodada {
+  id       String    @id @default(uuid())
+  numero   Int
+  Equipe   Equipe?   @relation(fields: [equipeId], references: [id])
+  equipeId String
+  status   String    @default("ativa")
+  palavras Palavra[]
 }

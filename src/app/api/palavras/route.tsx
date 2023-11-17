@@ -10,8 +10,8 @@ type Palavra = {
 }
 
 export async function GET() {
-  let palavras = await sql`SELECT * from palavras`;
-  return NextResponse.json(palavras.rows);
+  let palavras = await prisma.palavra.findMany();
+  return NextResponse.json(palavras);
 }
 
 export async function POST(req: NextRequest) {
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     });
   });
   console.log(listaPalavras);
-  const novasPalavras = await prisma.palavras.createMany({
+  const novasPalavras = await prisma.palavra.createMany({
     data: listaPalavras,
     skipDuplicates: true,
   });

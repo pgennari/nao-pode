@@ -6,11 +6,11 @@ export const dynamic = "force-dynamic";
 export default async function Home() {
   const palavras = await sql`SELECT * from palavras`;
   let totalPalavras: number = Object.keys(palavras.rows).length;
-  console.log(totalPalavras)
+  //console.log(totalPalavras)
   const indicePalavraSorteada = Math.floor(Math.random() * totalPalavras);
-  console.log(indicePalavraSorteada)
+  //console.log(indicePalavraSorteada)
   const palavra = palavras.rows[indicePalavraSorteada];
-  console.log(palavra)
+  //console.log(palavra)
   //const Timer = dynamic(() => import('@/components/timer'), { ssr: false })
   //const timer = Timer(expiryTimestamp={new Date(Date.now() + 60 * 1000)});
   const dificultadores = palavra.dificultadores.split(";").map((d: String, i: number) => {

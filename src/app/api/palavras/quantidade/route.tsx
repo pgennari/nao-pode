@@ -1,9 +1,10 @@
-import { sql } from "@vercel/postgres";
-import { NextResponse, NextRequest } from 'next/server';
+import { PrismaClient } from "@prisma/client";
+import { NextResponse } from 'next/server';
  
+const prisma = new PrismaClient();
+
 export async function GET() {
-  const quantidadePalavras = await sql`SELECT COUNT(*) FROM palavras`;
-  return NextResponse.json(quantidadePalavras.rows[0].count);
+  return NextResponse.json(await prisma.palavras.count());
 }
 
 export const dynamic = "force-dynamic";
