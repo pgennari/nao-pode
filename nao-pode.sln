@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nao-pode", "nao-pode.csproj", "{6681B4EA-80F7-4E2F-9879-FF4F4CEE6FC1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6681B4EA-80F7-4E2F-9879-FF4F4CEE6FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6681B4EA-80F7-4E2F-9879-FF4F4CEE6FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6681B4EA-80F7-4E2F-9879-FF4F4CEE6FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6681B4EA-80F7-4E2F-9879-FF4F4CEE6FC1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {36C94F8C-FF8A-4E3E-991C-F1EBA9421C8E}
+	EndGlobalSection
+EndGlobal
